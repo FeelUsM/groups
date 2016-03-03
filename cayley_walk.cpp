@@ -57,6 +57,28 @@ using namespace std;
 	sem_wait(pers_bar)
 	sem_post(pers_bar)
 }
+
+удаляется узел, когда все галочки проставлены
+одновременная встречная простановка галочек:
+sem_wait(flag_v_obrabotke)
+если вычислен
+	ставим флаг "в обработке"
+	sem_post(flag_v_obrabotke)
+	вычисляем, ищем
+	sem_wait(vychislation)
+	если найденный вычисляется
+		sem_post(vychislation)
+		sem_wait(vstrecha)
+		если у себя не вычислено // мог поставить партнер
+			у себя ставим вычислено в оба направления
+			у партнера ставим вычислено в оба направления
+		sem_post(vstrecha)
+	иначе
+		у найденного ставим вычислено
+		sem_post(vychislation)
+		у себя ставим вычислено
+иначе
+	sem_post(flag_v_obrabotke)
 */
 State eq(const State & st){
 	return st;
